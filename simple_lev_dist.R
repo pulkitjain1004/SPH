@@ -1,4 +1,4 @@
-#just a bug
+#this works
 #s1 = "hello"
   #readline(prompt="Enter First String: ")
 #s2 = "hell"
