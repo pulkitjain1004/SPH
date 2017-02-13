@@ -1,5 +1,5 @@
 s.lev.dist = function(s1,s2){
-#s1="compliment"; s2="complicated"
+#s1="complicated"; s2="random"
    
    m = nchar(s1)
    n = nchar(s2)
@@ -23,12 +23,14 @@ s.lev.dist = function(s1,s2){
 			D[i+1,j+1] = min(a,b,c)
 		}
 	}
-  
-   
-  
+
+D
+
 i=m+1
 j=n+1
 k=1
+
+
 t1temp = 1:max(m,n)
 toString(t1temp)
 t2temp = 1:max(m,n)
@@ -38,28 +40,32 @@ print('Traceback direction from last character')
 
 while(i>1 || j>1){
   
-  if((D[i-1,j-1]<=D[i-1,j]) && (D[i-1,j-1]<=D[i,j-1]) ){
+  if(i>1 && j > 1 && D[i-1,j-1]<=D[i-1,j] && D[i-1,j-1]<=D[i,j-1] ){
     
-    #diagnol = ifelse(D[i,j]>D[i-1,j-1],0,1); 
-    print("diagonal")
-    i=i-1;j=j-1
-    t1temp[k]=t1[i]
-    t2temp[k]=t2[j]
-    k=k+1
+      #diagnol = ifelse(D[i,j]>D[i-1,j-1],0,1); 
+      print("diagonal")
+      i=i-1;j=j-1
+      t1temp[k]=t1[i]
+      t2temp[k]=t2[j]
+      k=k+1
+  }
     
-  } else if(D[i-1,j] < D[i,j-1]){
-    i=i-1;j=j;
-    print("up")
-    t1temp[k]=t1[i]
-    t2temp[k]="_"
-    k = k+1
-  } else {
+  else if(i>1 && D[i-1,j] < D[i,j-1]){
+        i=i-1;j=j;
+        print("up")
+        t1temp[k]=t1[i]
+        t2temp[k]="_"
+        k = k+1
+        
+  }
+  else {
     i=i;j=j-1
     print("left")
     t1temp[k]="_"
     t2temp[k]=t2[j]
     k=k+1
-    }
+  }
+  
 }
 
 t1new = 1:max(m,n)
@@ -67,6 +73,7 @@ toString(t1new)
 t2new = 1:max(m,n)
 toString(t2new)
 
+#swap
 for (i in 1:k-1){
 
   t1new[i] = t1temp[k-i] 
@@ -77,4 +84,4 @@ return(results)
 
 }
 
-s.lev.dist("compliment","complicated")
+s.lev.dist("complicated","monday")
