@@ -40,7 +40,8 @@ print('Traceback direction from last character')
 
 while(i>1 || j>1){
   
-  if(i>1 && j > 1 && D[i-1,j-1]<=D[i-1,j] && D[i-1,j-1]<=D[i,j-1] ){
+  if(i>1 && j > 1){
+    if(D[i-1,j-1]<=D[i-1,j] && D[i-1,j-1]<=D[i,j-1] ){
     
       #diagnol = ifelse(D[i,j]>D[i-1,j-1],0,1); 
       print("diagonal")
@@ -48,24 +49,40 @@ while(i>1 || j>1){
       t1temp[k]=t1[i]
       t2temp[k]=t2[j]
       k=k+1
-  }
+     }
     
-  else if(i>1 && D[i-1,j] < D[i,j-1]){
+     else if(D[i-1,j] < D[i,j-1]){
         i=i-1;j=j;
         print("up")
         t1temp[k]=t1[i]
         t2temp[k]="_"
         k = k+1
         
+      }
+      else {
+        i=i;j=j-1
+        print("left")
+        t1temp[k]="_"
+        t2temp[k]=t2[j]
+        k=k+1
+      }
+    next
   }
-  else {
+  if(i==1){
     i=i;j=j-1
     print("left")
     t1temp[k]="_"
     t2temp[k]=t2[j]
     k=k+1
+    next
   }
-  
+  if(j==1){
+    i=i-1;j=j;
+    print("up")
+    t1temp[k]=t1[i]
+    t2temp[k]="_"
+    k = k+1
+  }
 }
 
 t1new = 1:max(m,n)
@@ -84,4 +101,4 @@ return(results)
 
 }
 
-s.lev.dist("complicated","monday")
+s.lev.dist("ra","a")
