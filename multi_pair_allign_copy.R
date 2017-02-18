@@ -1,4 +1,4 @@
-s.lev.dist = function(s1,s2,s3){
+m.lev.dist = function(s1,s2,s3){
 #s1="saturday"; s2="sunday"; s3 = "saturdays"
    
    m = nchar(s1)
@@ -38,28 +38,48 @@ toString(t2temp)
 
 while(i>1 || j>1){
   
-  if((D[i-1,j-1]<=D[i-1,j]) && (D[i-1,j-1]<=D[i,j-1]) ){
+  if(i>1 && j > 1){
+    if(D[i-1,j-1]<=D[i-1,j] && D[i-1,j-1]<=D[i,j-1] ){
+      
+      #diagnol = ifelse(D[i,j]>D[i-1,j-1],0,1); 
+      print("diagonal")
+      i=i-1;j=j-1
+      t1temp[k]=t1[i]
+      t2temp[k]=t2[j]
+      k=k+1
+    }
     
-    #diagnol = ifelse(D[i,j]>D[i-1,j-1],0,1); 
-    #print("diagonal")
-    i=i-1;j=j-1
-    t1temp[k]=t1[i]
-    t2temp[k]=t2[j]
-    k=k+1
-    
-  } else if(D[i-1,j] < D[i,j-1]){
-    i=i-1;j=j;
-    #print("up")
-    t1temp[k]=t1[i]
-    t2temp[k]="_"
-    k = k+1
-  } else {
+    else if(D[i-1,j] < D[i,j-1]){
+      i=i-1;j=j;
+      print("up")
+      t1temp[k]=t1[i]
+      t2temp[k]="_"
+      k = k+1
+      
+    }
+    else {
+      i=i;j=j-1
+      print("left")
+      t1temp[k]="_"
+      t2temp[k]=t2[j]
+      k=k+1
+    }
+    next
+  }
+  if(i==1){
     i=i;j=j-1
-    #print("left")
+    print("left")
     t1temp[k]="_"
     t2temp[k]=t2[j]
     k=k+1
-    }
+  }
+  if(j==1){
+    i=i-1;j=j;
+    print("up")
+    t1temp[k]=t1[i]
+    t2temp[k]="_"
+    k = k+1
+  }
 }
 
 elements = k-1
@@ -142,10 +162,11 @@ rownames(p2temp) = c('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o'
 
 while(i>1 || j>1){
   
-  if((D.new[i-1,j-1]<=D.new[i-1,j]) && (D.new[i-1,j-1]<=D.new[i,j-1]) ){
+  if(i>1 && j>1){
+    if((D.new[i-1,j-1]<=D.new[i-1,j]) && (D.new[i-1,j-1]<=D.new[i,j-1]) ){
     
     #diagnol = ifelse(D[i,j]>D[i-1,j-1],0,1); 
-    print("diagonal")
+    print("diagonals")
     i=i-1;j=j-1
     
     #p1temp[k]=t3[i]
@@ -156,20 +177,36 @@ while(i>1 || j>1){
     p2temp[,k]=prof[,j]
     k=k+1
     
-  } else if(D.new[i-1,j] < D.new[i,j-1]){
-    i=i-1;j=j;
-    print("up")
+    } else if(D.new[i-1,j] < D.new[i,j-1]){
+      i=i-1;j=j;
+      print("ups")
     
-    #t1temp[k]=t1[i]
+      #t1temp[k]=t1[i]
     
-    pos1.temp = grep(t3.new[i],ch.list)
-    p1temp[pos1.temp,k]=p1temp[pos1.temp,k]+1
+      pos1.temp = grep(t3.new[i],ch.list)
+      p1temp[pos1.temp,k]=p1temp[pos1.temp,k]+1
     
-    p2temp[27,k]=p2temp[27,k]+1
-    k = k+1
-  } else {
+      p2temp[27,k]=p2temp[27,k]+1
+      k = k+1
+    } else {
+      i=i;j=j-1
+      print("lefts")
+    
+      #t1temp[k]="_"
+      p1temp[27,k] = p1temp[27,k]+1
+    
+      #t2temp[k]=t2[j]
+      k
+      j
+      p2temp[,k]=prof[,j]
+    
+      k=k+1
+    }
+    next
+  }
+  if(i==1){
     i=i;j=j-1
-    print("left")
+    print("lefts")
     
     #t1temp[k]="_"
     p1temp[27,k] = p1temp[27,k]+1
@@ -180,6 +217,19 @@ while(i>1 || j>1){
     p2temp[,k]=prof[,j]
     
     k=k+1
+    next
+  }
+  if(j==1){
+    i=i-1;j=j;
+    print("ups")
+    
+    #t1temp[k]=t1[i]
+    
+    pos1.temp = grep(t3.new[i],ch.list)
+    p1temp[pos1.temp,k]=p1temp[pos1.temp,k]+1
+    
+    p2temp[27,k]=p2temp[27,k]+1
+    k = k+1
   }
 }
 
@@ -200,4 +250,4 @@ return(results)
 
 }
 
-s.lev.dist("saturday","sunday","saturdays")
+m.lev.dist("adfg","adf","d")
