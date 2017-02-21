@@ -1,4 +1,4 @@
-m.lev.dist = function(s1,s2,s3){
+s1.lev.dist = function(s1,s2){
 #s1="saturday"; s2="sunday"; s3 = "saturdays"
    
    m = nchar(s1)
@@ -103,48 +103,55 @@ ch.list = c('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
 prof = matrix(0,27,elements)
 rownames(prof) = c('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','_')
 
-for (i in 1:elements){
+  for (i in 1:elements){
   
-  pos1 = grep(t1new[i],ch.list)
-  prof[pos1,i]=prof[pos1,i]+1
+    pos1 = grep(t1new[i],ch.list)
+    prof[pos1,i]=prof[pos1,i]+1
   
-  pos2 = grep(t2new[i],ch.list)
-  prof[pos2,i]=prof[pos2,i]+1
+    pos2 = grep(t2new[i],ch.list)
+    prof[pos2,i]=prof[pos2,i]+1
   
-}
-
-#Compare prof with new string
-
-
-m.new = nchar(s3) 
-n.new = ncol(prof)
-
-t3.new = strsplit(s3, "")[[1]]
-
-D.new = matrix(0,m.new+1,n.new+1)
-D.new[,1] = 0:m.new
-D.new[1,] = 0:n.new
-
-rownames(D.new) = c("",t3.new)
-
-for (i in 1:m.new){	
-  for (j in 1:n.new){
-    
-    cost = 0
-    for (k in 1:27){
-      
-      if(t3.new[i]!=ch.list[k]){
-        cost = cost+prof[k,j]
-      }
-    }
-    cost = cost/max(colSums(prof))
-    
-    D.new[i+1,j+1] = cost+min(D.new[i,j+1],D.new[i+1,j],D.new[i,j])
   }
+
+  return(prof)
 }
 
+m.lev.dist = function(s3, prof){
 
-#new traceback
+  #Compare prof with new string
+
+  # create profile
+  ch.list = c('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','_')
+  prof = prof
+  m.new = nchar(s3) 
+  n.new = ncol(prof)
+
+  t3.new = strsplit(s3, "")[[1]]
+
+  D.new = matrix(0,m.new+1,n.new+1)
+  D.new[,1] = 0:m.new
+  D.new[1,] = 0:n.new
+
+  rownames(D.new) = c("",t3.new)
+
+  for (i in 1:m.new){	
+    for (j in 1:n.new){
+    
+      cost = 0
+      for (k in 1:27){
+      
+        if(t3.new[i]!=ch.list[k]){
+          cost = cost+prof[k,j]
+        }
+      }
+      cost = cost/max(colSums(prof))
+    
+      D.new[i+1,j+1] = cost+min(D.new[i,j+1],D.new[i+1,j],D.new[i,j])
+    }
+  }
+
+
+  #new traceback
 
 i=m.new+1
 j=n.new+1
@@ -196,8 +203,6 @@ while(i>1 || j>1){
       p1temp[27,k] = p1temp[27,k]+1
     
       #t2temp[k]=t2[j]
-      k
-      j
       p2temp[,k]=prof[,j]
     
       k=k+1
@@ -212,8 +217,6 @@ while(i>1 || j>1){
     p1temp[27,k] = p1temp[27,k]+1
     
     #t2temp[k]=t2[j]
-    k
-    j
     p2temp[,k]=prof[,j]
     
     k=k+1
@@ -233,21 +236,21 @@ while(i>1 || j>1){
   }
 }
 
-elements.new = k-1
-prof.new = matrix(0,27,elements.new)
-rownames(prof.new) = c('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','_')
+  elements.new = k-1 
+  prof.new = matrix(0,27,elements.new)
+  rownames(prof.new) = c('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','_')
 
 
-for (i in 1:elements.new){
+  for (i in 1:elements.new){
 
-  prof.new[,i] = p1temp[,k-i] + p2temp[,k-i]
+    prof.new[,i] = p1temp[,k-i] + p2temp[,k-i]
+
+  }
+
+ 
+  #results = list(D, t1new, t2new, prof, D.new, p1temp, p2temp, prof.new )
+  return(prof.new)
 
 }
 
-
-results = list(D, t1new, t2new, prof, D.new, p1temp, p2temp, prof.new )
-return(results)
-
-}
-
-m.lev.dist("adfg","adf","d")
+#m.lev.dist("adfg","adf","d")
